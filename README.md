@@ -1,30 +1,59 @@
+
 # Rahul Adepu — Portfolio
 
-React, TypeScript, Tailwind CSS, and shadcn/ui structure. Preconfigured for zero-config hosting on **GitHub Pages** and **Netlify**.
+A modern, responsive personal portfolio showcasing my work, projects, technical skills, and experience as a developer.
 
-## Local Development
+## 🚀 Tech Stack
+
+- React
+- TypeScript
+- Tailwind CSS
+- shadcn/ui
+
+## ✨ Features
+
+- Modern and responsive design
+- Clean and intuitive user interface
+- Interactive components and smooth animations
+- Projects and skills showcase
+- Optimized production build
+
+## 🛠️ Getting Started
+
+### Prerequisites
+
+- Node.js
+- npm
+
+### Installation
 
 ```bash
 npm install
+```
+
+### Development
+
+```bash
 npm run dev
 ```
 
-## Build
+### Production Build
 
 ```bash
 npm run build
 ```
 
-Outputs a ready-to-host static bundle in `dist/` (including `404.html`, `_redirects`, and `.nojekyll`).
+### Preview
 
-## Host on Netlify (2 options)
+```bash
+npm run preview
+```
 
-- **Git deploy**: Push this folder to GitHub, import the repo in Netlify — `netlify.toml` automatically sets Node 22, runs `npm run build`, publishes `dist/`, and enables SPA routing for the animated 404 page.
-- **Drag & drop**: Run `npm run build` and drop the `dist/` folder into [app.netlify.com/drop](https://app.netlify.com/drop) (`dist/_redirects` is bundled automatically).
 
-## Host on GitHub Pages
+## 👨‍💻 Author
 
-1. Push this folder to GitHub (`main` or `master`).
-2. Open **Settings → Pages → Source** and select **GitHub Actions**.
-3. `.github/workflows/deploy.yml` automatically detects your Pages base path (works for custom domains, `<user>.github.io`, or project repos like `<user>.github.io/MyWebsite/`), builds `dist/`, and publishes it.
-# MyPortfolio
+**Rahul Adepu**
+
+---
+
+⭐ Feel free to explore my portfolio and projects!

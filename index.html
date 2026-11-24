@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rahul Adepu | Site Reliability Engineer · DevOps · Cloud · Toronto</title>
+    <meta
+      name="description"
+      content="Rahul Adepu is a Site Reliability Engineer and DevOps Cloud Engineer based in Toronto, Ontario, building production reliability in regulated financial environments at Capital One and Accenture."
+    />
+    <meta
+      name="keywords"
+      content="Rahul Adepu, Site Reliability Engineer, SRE Toronto, DevOps Engineer Canada, Cloud Engineer, Kubernetes EKS, Dynatrace, AWS, Capital One, Accenture, CI/CD, Terraform, Observability, OpenShift"
+    />
+    <meta name="author" content="Rahul Adepu" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="bg-paper text-ink antialiased selection:bg-accent selection:text-ink dark:bg-zinc-950 dark:text-paper">
+    <script>
+      (function () {
+        try {
+          var saved = localStorage.getItem("ra-theme");
+          if (saved === "dark" || (!saved && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
+            document.documentElement.classList.add("dark");
+          }
+        } catch (e) {}
+      })();
+    </script>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
