@@ -40,17 +40,20 @@ interface Shockwave {
  * with spring physics, emerald proximity bloom, subtle constellation links near pointer,
  * and expanding shockwaves on pointer click.
  */
+const DEFAULT_ACCENT_RGB: [number, number, number] = [95, 181, 122]
+
 export function InteractiveDotGrid({
   gap = 28,
   baseRadius = 1.6,
   influenceRadius = 165,
   darkMode = false,
-  accentRgb = [95, 181, 122],
+  accentRgb = DEFAULT_ACCENT_RGB,
   className,
 }: InteractiveDotGridProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const darkRef = useRef(darkMode)
   darkRef.current = darkMode
+  const [ar, ag, ab] = accentRgb
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -146,11 +149,9 @@ export function InteractiveDotGrid({
     })
     io.observe(canvas)
 
-    const [ar, ag, ab] = accentRgb
-
     const render = (now: number) => {
       raf = requestAnimationFrame(render)
-      if (!visible) return
+      if (!visible || document.hidden) return
 
       ctx.clearRect(0, 0, width, height)
 
@@ -298,7 +299,7 @@ export function InteractiveDotGrid({
       window.removeEventListener("pointerdown", onPointerDown)
       document.documentElement.removeEventListener("pointerleave", onPointerLeave)
     }
-  }, [gap, baseRadius, influenceRadius, accentRgb])
+  }, [gap, baseRadius, influenceRadius, ar, ag, ab])
 
   return (
     <canvas

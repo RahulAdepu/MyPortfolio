@@ -6,7 +6,7 @@ export function AboutSection() {
   return (
     <section
       id="about"
-      className="relative z-10 border-b-2 border-ink bg-transparent py-20 transition-colors dark:border-paper/20 sm:py-28"
+      className="relative z-10 scroll-mt-16 border-b-2 border-ink bg-transparent py-20 transition-colors dark:border-paper/20 sm:py-28"
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mb-12 flex flex-wrap items-end justify-between gap-4 border-b-2 border-ink pb-6 dark:border-paper/20">

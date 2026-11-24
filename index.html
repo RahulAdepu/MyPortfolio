@@ -13,6 +13,60 @@
       content="Rahul Adepu, Site Reliability Engineer, SRE Toronto, DevOps Engineer Canada, Cloud Engineer, Kubernetes EKS, Dynatrace, AWS, Capital One, Accenture, CI/CD, Terraform, Observability, OpenShift"
     />
     <meta name="author" content="Rahul Adepu" />
+    <meta name="robots" content="index, follow" />
+    <meta name="theme-color" content="#ebebea" />
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Rahul Adepu | Site Reliability Engineer · DevOps · Cloud" />
+    <meta
+      property="og:description"
+      content="Site Reliability & DevOps Engineer delivering production reliability in regulated financial environments. Capital One · Accenture · Toronto, ON."
+    />
+    <meta property="og:locale" content="en_CA" />
+    <meta property="og:site_name" content="Rahul Adepu Portfolio" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Rahul Adepu | SRE · DevOps · Cloud Engineer" />
+    <meta
+      name="twitter:description"
+      content="Building production reliability for financial systems. Kubernetes, Dynatrace, AWS, CI/CD. Based in Toronto, ON."
+    />
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Rahul Adepu",
+        "jobTitle": "Site Reliability Engineer",
+        "email": "mailto:rahuladepu09@gmail.com",
+        "telephone": "+1-647-375-4990",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Toronto",
+          "addressRegion": "Ontario",
+          "addressCountry": "CA"
+        },
+        "sameAs": [
+          "https://linkedin.com/in/Rahul-Adepu-09",
+          "https://github.com/RahulAdepu"
+        ],
+        "knowsAbout": [
+          "Site Reliability Engineering",
+          "Kubernetes",
+          "AWS",
+          "Dynatrace",
+          "CI/CD",
+          "DevOps",
+          "Terraform",
+          "Observability"
+        ]
+      }
+    </script>
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -24,8 +78,7 @@
     <script>
       (function () {
         try {
-          var saved = localStorage.getItem("ra-theme");
-          if (saved === "dark" || (!saved && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
+          if (localStorage.getItem("ra-theme") === "dark") {
             document.documentElement.classList.add("dark");
           }
         } catch (e) {}

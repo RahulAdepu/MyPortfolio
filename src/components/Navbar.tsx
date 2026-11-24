@@ -42,6 +42,15 @@ export function Navbar({ darkMode, onToggleTheme }: NavbarProps) {
     return () => observer.disconnect()
   }, [])
 
+  useEffect(() => {
+    if (!open) return
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false)
+    }
+    window.addEventListener("keydown", onKeyDown)
+    return () => window.removeEventListener("keydown", onKeyDown)
+  }, [open])
+
   return (
     <header className="sticky top-0 z-40 border-y-2 border-ink bg-paper/95 backdrop-blur-sm transition-colors dark:border-paper/20 dark:bg-zinc-950/95">
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">
@@ -62,6 +71,7 @@ export function Navbar({ darkMode, onToggleTheme }: NavbarProps) {
               <a
                 key={link.id}
                 href={`#${link.id}`}
+                aria-current={isActive ? "location" : undefined}
                 className={`group inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full px-3 py-1.5 text-xs font-extrabold uppercase tracking-wider transition-colors ${
                   isActive
                     ? "bg-ink text-paper dark:bg-paper dark:text-ink"

@@ -135,7 +135,7 @@ export function CredentialsAndGame() {
   return (
     <section
       id="credentials"
-      className="relative z-10 border-b-2 border-ink bg-transparent py-20 transition-colors dark:border-paper/20 sm:py-28"
+      className="relative z-10 scroll-mt-16 border-b-2 border-ink bg-transparent py-20 transition-colors dark:border-paper/20 sm:py-28"
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mb-12 flex flex-wrap items-end justify-between gap-4 border-b-2 border-ink pb-6 dark:border-paper/20">
@@ -232,7 +232,7 @@ export function CredentialsAndGame() {
             </div>
           </div>
 
-          <div id="simulation" className="lg:col-span-5">
+          <div id="simulation" className="scroll-mt-20 lg:col-span-5">
             <div className="flex h-full flex-col justify-between rounded-3xl border-2 border-ink bg-ink p-6 text-paper shadow-brutal-accent dark:border-accent/60 dark:bg-zinc-900 sm:p-7">
               <div>
                 <div className="flex items-center justify-between gap-2">

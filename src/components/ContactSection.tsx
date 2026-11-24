@@ -27,28 +27,50 @@ export function ContactSection() {
 
   useEffect(() => {
     if (!qrOpen) return
+    const prevBodyOverflow = document.body.style.overflow
+    const prevHtmlOverflow = document.documentElement.style.overflow
+    document.body.style.overflow = "hidden"
+    document.documentElement.style.overflow = "hidden"
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") setQrOpen(false)
     }
     window.addEventListener("keydown", onKeyDown)
-    return () => window.removeEventListener("keydown", onKeyDown)
+    return () => {
+      document.body.style.overflow = prevBodyOverflow
+      document.documentElement.style.overflow = prevHtmlOverflow
+      window.removeEventListener("keydown", onKeyDown)
+    }
   }, [qrOpen])
 
   const copyValue = async (key: string, value: string) => {
     try {
-      await navigator.clipboard.writeText(value)
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(value)
+      } else {
+        const ta = document.createElement("textarea")
+        ta.value = value
+        ta.style.position = "fixed"
+        ta.style.opacity = "0"
+        document.body.appendChild(ta)
+        ta.select()
+        document.execCommand("copy")
+        document.body.removeChild(ta)
+      }
       setCopied(key)
       window.setTimeout(() => setCopied(null), 1800)
     } catch {
-      // Clipboard API unavailable in restricted contexts
+      // Clipboard unavailable in restricted browser contexts
     }
   }
 
   return (
     <footer
       id="contact"
-      className="relative z-10 bg-transparent pt-20 transition-colors sm:pt-28"
+      className="relative z-10 scroll-mt-16 bg-transparent pt-20 transition-colors sm:pt-28"
     >
+      <span className="sr-only" aria-live="polite">
+        {copied ? `Copied ${copied} to clipboard` : ""}
+      </span>
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="rounded-[2rem] border-2 border-ink bg-white p-8 shadow-brutal-lg dark:border-paper/25 dark:bg-zinc-900 dark:shadow-brutal-dark sm:p-12">
           <div className="grid gap-10 lg:grid-cols-12 lg:items-end">

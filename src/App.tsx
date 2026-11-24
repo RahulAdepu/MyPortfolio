@@ -13,13 +13,13 @@ import { HERO_CONFIG } from "@/data/portfolio"
 
 const BASE_PATH = import.meta.env.BASE_URL.replace(/\/+$/, "") || ""
 
+const HOME_TITLE = "Rahul Adepu | Site Reliability Engineer · DevOps · Cloud · Toronto"
+const NOT_FOUND_TITLE = "404 — Page Not Found | Rahul Adepu"
+
 function getInitialDarkMode(): boolean {
   if (typeof window === "undefined") return false
   try {
-    const saved = window.localStorage.getItem("ra-theme")
-    if (saved === "dark") return true
-    if (saved === "light") return false
-    return false
+    return window.localStorage.getItem("ra-theme") === "dark"
   } catch {
     return false
   }
@@ -52,6 +52,12 @@ export default function App() {
     return () => window.removeEventListener("popstate", onPopState)
   }, [])
 
+  const isHome = isHomeRoute(pathname)
+
+  useEffect(() => {
+    document.title = isHome ? HOME_TITLE : NOT_FOUND_TITLE
+  }, [isHome])
+
   const toggleTheme = () => setDarkMode((prev) => !prev)
 
   const navigateTo = (relativePath: string, sectionHash?: string) => {
@@ -67,7 +73,7 @@ export default function App() {
     }
   }
 
-  if (!isHomeRoute(pathname)) {
+  if (!isHome) {
     return (
       <NotFoundPage
         pathname={pathname}
@@ -97,6 +103,13 @@ export default function App() {
       id="top"
       className="relative min-h-screen bg-paper text-ink transition-colors dark:bg-zinc-950 dark:text-paper"
     >
+      <a
+        href="#about"
+        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-full focus:border-2 focus:border-ink focus:bg-accent focus:px-4 focus:py-2 focus:text-xs focus:font-extrabold focus:uppercase focus:tracking-wider focus:text-ink"
+      >
+        Skip to content
+      </a>
+
       {/* Single seamless cursor-reactive dotted grid across all sections */}
       <InteractiveDotGrid
         darkMode={darkMode}

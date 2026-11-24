@@ -12,6 +12,7 @@ const ICONS: Record<string, typeof Cloud> = {
 export function SkillsSection() {
   const [selected, setSelected] = useState<string>("all")
 
+  const totalSkills = SKILL_CATEGORIES.reduce((sum, cat) => sum + cat.items.length, 0)
   const visibleCategories =
     selected === "all"
       ? SKILL_CATEGORIES
@@ -20,7 +21,7 @@ export function SkillsSection() {
   return (
     <section
       id="skills"
-      className="relative z-10 border-b-2 border-ink bg-transparent py-20 transition-colors dark:border-paper/20 sm:py-28"
+      className="relative z-10 scroll-mt-16 border-b-2 border-ink bg-transparent py-20 transition-colors dark:border-paper/20 sm:py-28"
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mb-10 flex flex-wrap items-end justify-between gap-4 border-b-2 border-ink pb-6 dark:border-paper/20">
@@ -49,9 +50,10 @@ export function SkillsSection() {
         </div>
 
         {/* Filter Bar */}
-        <div className="mb-8 flex flex-wrap gap-2">
+        <div className="mb-8 flex flex-wrap gap-2" role="group" aria-label="Filter skills by domain">
           <button
             type="button"
+            aria-pressed={selected === "all"}
             onClick={() => setSelected("all")}
             className={`rounded-full border-2 border-ink px-4 py-1.5 text-xs font-extrabold uppercase tracking-wider transition-all dark:border-paper/30 ${
               selected === "all"
@@ -59,12 +61,13 @@ export function SkillsSection() {
                 : "bg-white text-ink hover:bg-accent dark:bg-zinc-900 dark:text-paper dark:hover:bg-accent dark:hover:text-ink"
             }`}
           >
-            All Domains (16)
+            All Domains ({totalSkills})
           </button>
           {SKILL_CATEGORIES.map((cat) => (
             <button
               key={cat.id}
               type="button"
+              aria-pressed={selected === cat.id}
               onClick={() => setSelected(cat.id)}
               className={`rounded-full border-2 border-ink px-4 py-1.5 text-xs font-extrabold uppercase tracking-wider transition-all dark:border-paper/30 ${
                 selected === cat.id
