@@ -19,7 +19,7 @@ function getInitialDarkMode(): boolean {
     const saved = window.localStorage.getItem("ra-theme")
     if (saved === "dark") return true
     if (saved === "light") return false
-    return window.matchMedia("(prefers-color-scheme: dark)").matches
+    return false
   } catch {
     return false
   }
