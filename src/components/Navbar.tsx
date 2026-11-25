@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from "react"
 import { ArrowUpRight, Moon, Sun } from "lucide-react"
 import { PROFILE } from "@/data/portfolio"
 
@@ -25,6 +26,7 @@ export const NAV_SECTIONS: ReadonlyArray<{
 interface NavbarProps {
   activeSection: SectionId
   onSelectSection: (section: SectionId) => void
+  onGoTop: () => void
   darkMode: boolean
   onToggleTheme: () => void
 }
@@ -32,22 +34,40 @@ interface NavbarProps {
 export function Navbar({
   activeSection,
   onSelectSection,
+  onGoTop,
   darkMode,
   onToggleTheme,
 }: NavbarProps) {
+  const [tickerPaused, setTickerPaused] = useState(false)
+  const resumeTimer = useRef<number | undefined>(undefined)
+
+  useEffect(() => () => window.clearTimeout(resumeTimer.current), [])
+
+  const pauseBriefly = () => {
+    setTickerPaused(true)
+    window.clearTimeout(resumeTimer.current)
+    resumeTimer.current = window.setTimeout(() => setTickerPaused(false), 3000)
+  }
+
+  const handleMobileSelect = (id: SectionId) => {
+    pauseBriefly()
+    onSelectSection(id)
+  }
+
   return (
-    <header className="sticky top-0 z-40 border-y-2 border-ink bg-paper/95 backdrop-blur-sm transition-colors dark:border-paper/20 dark:bg-zinc-950/95">
+    <header className="fixed inset-x-0 top-0 z-50 border-b-2 border-ink bg-paper/95 backdrop-blur-md transition-colors dark:border-paper/20 dark:bg-zinc-950/95">
+      {/* Main Top Bar */}
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-2.5 sm:px-6 lg:px-8">
-        <a
-          href="#top"
-          onClick={() => onSelectSection("overview")}
+        <button
+          type="button"
+          onClick={onGoTop}
           className="inline-flex shrink-0 items-center gap-2 whitespace-nowrap rounded-full border-2 border-ink bg-white py-1 pl-1 pr-3 text-xs font-extrabold uppercase tracking-wider text-ink transition-transform hover:-translate-y-0.5 dark:border-paper/30 dark:bg-zinc-900 dark:text-paper"
         >
           <span className="rounded-full bg-accent px-2 py-0.5 font-mono text-[11px] font-bold text-ink">
             RA
           </span>
           <span>{PROFILE.name}</span>
-        </a>
+        </button>
 
         {/* Desktop Section Tabs */}
         <nav
@@ -107,33 +127,57 @@ export function Navbar({
         </div>
       </div>
 
-      {/* Mobile / Tablet 1-Tap Section Bar */}
-      <div className="border-t border-ink/15 px-4 py-2 dark:border-paper/15 lg:hidden">
+      {/* Mobile / Tablet Circular News-Ticker Section Bar */}
+      <div
+        className="relative overflow-hidden border-t border-ink/15 bg-paper/90 py-1.5 dark:border-paper/15 dark:bg-zinc-950/90 lg:hidden"
+        onTouchStart={pauseBriefly}
+      >
         <div
-          role="tablist"
+          className="overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_6%,black_94%,transparent)]"
           aria-label="Portfolio sections"
-          className="flex items-center gap-1.5 overflow-x-auto pb-0.5"
         >
-          {NAV_SECTIONS.map((item) => {
-            const isActive = activeSection === item.id
-            return (
-              <button
-                key={item.id}
-                type="button"
-                role="tab"
-                aria-selected={isActive}
-                onClick={() => onSelectSection(item.id)}
-                className={`inline-flex shrink-0 items-center gap-1 whitespace-nowrap rounded-full border px-3 py-1 text-[11px] font-extrabold uppercase tracking-wider transition-colors ${
-                  isActive
-                    ? "border-ink bg-ink text-paper dark:border-paper dark:bg-paper dark:text-ink"
-                    : "border-ink/25 bg-white text-ink dark:border-paper/25 dark:bg-zinc-900 dark:text-paper"
-                }`}
+          <div className="nav-ticker-track" data-paused={tickerPaused ? "true" : "false"}>
+            {[0, 1].map((loopIdx) => (
+              <div
+                key={loopIdx}
+                role={loopIdx === 0 ? "tablist" : undefined}
+                aria-hidden={loopIdx === 1 ? "true" : undefined}
+                className="flex shrink-0 items-center gap-2 pr-2"
               >
-                <span className="font-mono text-[9px] opacity-65">{item.index}</span>
-                <span>{item.label}</span>
-              </button>
-            )
-          })}
+                {NAV_SECTIONS.map((item) => {
+                  const isActive = activeSection === item.id
+                  return (
+                    <button
+                      key={`${loopIdx}-${item.id}`}
+                      type="button"
+                      role={loopIdx === 0 ? "tab" : undefined}
+                      aria-selected={loopIdx === 0 ? isActive : undefined}
+                      tabIndex={loopIdx === 1 ? -1 : 0}
+                      onClick={() => handleMobileSelect(item.id)}
+                      className={`inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border px-3 py-1 text-[11px] font-extrabold uppercase tracking-wider transition-colors ${
+                        isActive
+                          ? "border-ink bg-ink text-paper dark:border-paper dark:bg-paper dark:text-ink"
+                          : "border-ink/25 bg-white text-ink hover:border-ink dark:border-paper/25 dark:bg-zinc-900 dark:text-paper"
+                      }`}
+                    >
+                      <span
+                        className={`font-mono text-[9px] ${
+                          isActive ? "text-accent dark:text-ink/70" : "opacity-60"
+                        }`}
+                      >
+                        {item.index}
+                      </span>
+                      <span>{item.label}</span>
+                    </button>
+                  )
+                })}
+                <span
+                  aria-hidden="true"
+                  className="mx-1 h-1.5 w-1.5 shrink-0 rounded-full bg-accent"
+                />
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </header>

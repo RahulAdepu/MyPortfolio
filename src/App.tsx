@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react"
-import { Github, Linkedin, Mail, Moon, QrCode, Sun } from "lucide-react"
+import { Github, Linkedin, Mail, QrCode } from "lucide-react"
 import MascotPortfolioHero from "@/components/ui/mascot-portfolio-hero"
 import { InteractiveDotGrid } from "@/components/ui/interactive-dot-grid"
 import { Navbar, NAV_SECTIONS, type SectionId } from "@/components/Navbar"
@@ -125,6 +125,12 @@ export default function App() {
     }
   }
 
+  const goTop = () => {
+    setActiveSection("overview")
+    window.history.replaceState({}, "", `${BASE_PATH || ""}/`)
+    window.scrollTo({ top: 0, behavior: "smooth" })
+  }
+
   const navigateHomeFrom404 = (sectionHash?: string) => {
     const section = sectionHash ? parseHashSection(sectionHash) : "overview"
     const nextSection = section ?? "overview"
@@ -188,33 +194,25 @@ export default function App() {
         className="fixed inset-0 z-0"
       />
 
-      <div className="relative z-10">
+      {/* Fixed Top Navigation Header (Desktop tabs + Mobile circular news-ticker bar) */}
+      <Navbar
+        activeSection={activeSection}
+        onSelectSection={(sec) => selectSection(sec)}
+        onGoTop={goTop}
+        darkMode={darkMode}
+        onToggleTheme={toggleTheme}
+      />
+
+      <div className="relative z-10 pt-[98px] lg:pt-[58px]">
         <MascotPortfolioHero
-          height="100svh"
-          minHeight="540px"
+          height="calc(100svh - 58px)"
+          minHeight="520px"
           {...HERO_CONFIG}
           {...heroThemeProps}
         />
-
-        <button
-          type="button"
-          onClick={toggleTheme}
-          aria-label={darkMode ? "Switch to light mode" : "Switch to dark mode"}
-          className="absolute bottom-5 right-5 z-30 inline-flex items-center gap-2 rounded-full border-2 border-ink bg-white/95 px-3.5 py-2 font-mono text-[11px] font-bold uppercase tracking-wider text-ink shadow-brutal backdrop-blur-sm transition-transform hover:-translate-y-0.5 hover:bg-accent dark:border-paper/30 dark:bg-zinc-900/95 dark:text-paper dark:shadow-brutal-dark dark:hover:bg-accent dark:hover:text-ink"
-        >
-          {darkMode ? <Sun className="h-3.5 w-3.5" /> : <Moon className="h-3.5 w-3.5" />}
-          <span>{darkMode ? "Light" : "Dark"}</span>
-        </button>
       </div>
 
-      <div ref={workspaceRef} id="workspace" className="scroll-mt-0">
-        <Navbar
-          activeSection={activeSection}
-          onSelectSection={(sec) => selectSection(sec)}
-          darkMode={darkMode}
-          onToggleTheme={toggleTheme}
-        />
-      </div>
+      <div ref={workspaceRef} id="workspace" className="scroll-mt-[100px] lg:scroll-mt-[60px]" />
 
       <main className="relative z-10 flex-1" role="tabpanel" aria-label={activeSection}>
         {activeSection === "overview" && (

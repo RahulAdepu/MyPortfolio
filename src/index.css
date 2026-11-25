@@ -44,3 +44,31 @@
     color: #f3f3f0;
   }
 }
+
+@keyframes nav-ticker {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.nav-ticker-track {
+  display: flex;
+  width: max-content;
+  animation: nav-ticker 18s linear infinite;
+  will-change: transform;
+}
+
+.nav-ticker-track:hover,
+.nav-ticker-track:focus-within,
+.nav-ticker-track[data-paused="true"] {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-ticker-track {
+    animation: none;
+  }
+}
