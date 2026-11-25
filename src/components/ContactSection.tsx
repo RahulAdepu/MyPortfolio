@@ -64,10 +64,7 @@ export function ContactSection() {
   }
 
   return (
-    <footer
-      id="contact"
-      className="relative z-10 scroll-mt-16 bg-transparent pt-20 transition-colors sm:pt-28"
-    >
+    <section className="relative z-10 py-12 sm:py-16">
       <span className="sr-only" aria-live="polite">
         {copied ? `Copied ${copied} to clipboard` : ""}
       </span>
@@ -234,13 +231,6 @@ export function ContactSection() {
             </div>
           </div>
         </div>
-
-        <div className="flex flex-wrap items-center justify-between gap-4 py-8 font-mono text-xs uppercase tracking-wider text-ink/70 dark:text-paper/60">
-          <span>
-            © {new Date().getFullYear()} {PROFILE.name} · Toronto, ON
-          </span>
-          <span>SRE // DevOps // Cloud Engineering</span>
-        </div>
       </div>
 
       {/* Enlarged QR Modal for easy scanning */}
@@ -310,6 +300,6 @@ export function ContactSection() {
           </div>
         </div>
       )}
-    </footer>
+    </section>
   )
 }
