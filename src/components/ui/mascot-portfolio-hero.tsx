@@ -284,14 +284,13 @@ const CSS = `
 .mph-happy .mph-tagwig{animation:mph-wiggle .9s cubic-bezier(.3,1.6,.5,1);}
 .mph-bubble{position:absolute;left:-4%;top:6%;max-width:46%;background:var(--mph-surface);color:var(--mph-ink);border:.16cqw solid var(--mph-ink);border-radius:1.4em 1.4em 1.4em .2em;padding:.8em 1.1em;font-size:1.3cqw;font-weight:800;line-height:1.2;text-align:left;box-shadow:.35cqw .35cqw 0 var(--mph-accent);transform-origin:0 100%;transform:scale(0) rotate(-8deg);opacity:0;transition:transform .45s cubic-bezier(.3,1.6,.5,1),opacity .2s;pointer-events:none;}
 .mph-bubble[data-on="true"]{transform:scale(1) rotate(-4deg);opacity:1;}
-.mph-poke{position:absolute;right:-2%;top:8%;font-family:var(--mph-sans);font-size:1.25cqw;font-weight:800;letter-spacing:0;line-height:1;white-space:nowrap;background:var(--mph-surface);color:var(--mph-ink);border:.13cqw solid var(--mph-ink);border-radius:50%;padding:.72em 1.15em;transform:rotate(10deg);transition:background .25s,color .25s,transform .4s cubic-bezier(.3,1.6,.5,1);pointer-events:none;animation:mph-float 3.2s ease-in-out infinite;}
+.mph-poke{position:absolute;right:-2%;top:8%;font-family:var(--mph-sans);font-size:1.25cqw;font-weight:800;letter-spacing:0;line-height:1;white-space:nowrap;background:var(--mph-surface);color:var(--mph-ink);border:max(1.5px,.13cqw) solid var(--mph-ink);border-radius:50%;padding:.72em 1.15em;transform:rotate(9deg);transition:background .25s,color .25s,transform .4s cubic-bezier(.3,1.6,.5,1);pointer-events:none;text-rendering:geometricPrecision;}
 .mph-poke sup{font-size:.75em;margin-left:.08em;}
-.mph-char:hover .mph-poke,.mph-happy .mph-poke{background:var(--mph-accent);color:#111111;transform:rotate(-5deg) scale(1.08);animation-play-state:paused;}
+.mph-char:hover .mph-poke,.mph-happy .mph-poke{background:var(--mph-accent);color:#111111;transform:rotate(-5deg) scale(1.06);}
 
 @keyframes mph-draw{from{stroke-dashoffset:1;}to{stroke-dashoffset:0;}}
 @keyframes mph-spin{to{transform:rotate(360deg);}}
 @keyframes mph-wiggle{0%{transform:rotate(0);}25%{transform:rotate(-14deg);}55%{transform:rotate(9deg);}80%{transform:rotate(-4deg);}100%{transform:rotate(0);}}
-@keyframes mph-float{0%,100%{transform:translateY(0) rotate(10deg);}50%{transform:translateY(-.35em) rotate(13deg);}}
 
 @container mph (orientation: portrait){
 .mph-stage{top:0;transform:translateX(-50%);width:min(100cqw,56.25cqh);height:100cqh;aspect-ratio:auto;}
