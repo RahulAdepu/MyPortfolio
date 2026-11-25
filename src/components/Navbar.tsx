@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useRef } from "react"
 import { ArrowUpRight, Moon, Sun } from "lucide-react"
 import { PROFILE } from "@/data/portfolio"
 
@@ -23,6 +23,9 @@ export const NAV_SECTIONS: ReadonlyArray<{
   { id: "contact", index: "06", label: "Contact" },
 ]
 
+const AUTO_CYCLE_MS = 7000
+const CYCLE_PX_PER_SEC = 52
+
 interface NavbarProps {
   activeSection: SectionId
   onSelectSection: (section: SectionId) => void
@@ -38,20 +41,104 @@ export function Navbar({
   darkMode,
   onToggleTheme,
 }: NavbarProps) {
-  const [tickerPaused, setTickerPaused] = useState(false)
-  const resumeTimer = useRef<number | undefined>(undefined)
+  const scrollerRef = useRef<HTMLDivElement>(null)
+  const hoveredRef = useRef(false)
+  const autoStoppedRef = useRef(false)
+  const posRef = useRef(0)
+  const programmaticRef = useRef(false)
 
-  useEffect(() => () => window.clearTimeout(resumeTimer.current), [])
+  // Auto-cycle the mobile (< 640px) circular ring for 7 seconds, then hand off cleanly to manual circular scroll
+  useEffect(() => {
+    const el = scrollerRef.current
+    if (!el) return
 
-  const pauseBriefly = () => {
-    setTickerPaused(true)
-    window.clearTimeout(resumeTimer.current)
-    resumeTimer.current = window.setTimeout(() => setTickerPaused(false), 3000)
+    const mobileMq = window.matchMedia("(max-width: 639px)")
+    const reducedMq = window.matchMedia("(prefers-reduced-motion: reduce)")
+
+    // Start in the middle copy of the 3-copy ring so users can manually scroll infinitely left OR right
+    const initMiddle = () => {
+      const third = el.scrollWidth / 3
+      if (third > 0 && el.scrollLeft === 0) {
+        posRef.current = third
+        programmaticRef.current = true
+        el.scrollLeft = third
+        programmaticRef.current = false
+      }
+    }
+    initMiddle()
+
+    if (!mobileMq.matches || reducedMq.matches) {
+      autoStoppedRef.current = true
+      return
+    }
+
+    autoStoppedRef.current = false
+    let elapsedMs = 0
+    let prev = performance.now()
+    let raf = 0
+    let inView = true
+
+    const io = new IntersectionObserver(([entry]) => {
+      inView = entry.isIntersecting
+      prev = performance.now()
+    })
+    io.observe(el)
+
+    const step = (now: number) => {
+      if (autoStoppedRef.current || !mobileMq.matches || reducedMq.matches) return
+      const dtMs = Math.min(50, now - prev)
+      prev = now
+
+      if (inView && !hoveredRef.current && !document.hidden) {
+        elapsedMs += dtMs
+        if (elapsedMs >= AUTO_CYCLE_MS) {
+          autoStoppedRef.current = true
+          return
+        }
+
+        const third = el.scrollWidth / 3
+        if (third > 0) {
+          let next = posRef.current + (CYCLE_PX_PER_SEC * dtMs) / 1000
+          if (next >= third * 2) next -= third
+          posRef.current = next
+          programmaticRef.current = true
+          el.scrollLeft = next
+          programmaticRef.current = false
+        }
+      }
+
+      raf = requestAnimationFrame(step)
+    }
+
+    raf = requestAnimationFrame(step)
+    return () => {
+      cancelAnimationFrame(raf)
+      io.disconnect()
+    }
+  }, [])
+
+  // Keep manual horizontal scrolling infinitely circular in BOTH directions (3-copy middle-band wrap)
+  const handleRingScroll = () => {
+    const el = scrollerRef.current
+    if (!el || programmaticRef.current) return
+
+    const third = el.scrollWidth / 3
+    if (third <= 0) return
+
+    if (el.scrollLeft >= third * 1.65) {
+      programmaticRef.current = true
+      el.scrollLeft -= third
+      programmaticRef.current = false
+    } else if (el.scrollLeft <= third * 0.35) {
+      programmaticRef.current = true
+      el.scrollLeft += third
+      programmaticRef.current = false
+    }
+    posRef.current = el.scrollLeft
   }
 
-  const handleMobileSelect = (id: SectionId) => {
-    pauseBriefly()
-    onSelectSection(id)
+  const pauseAutoCycle = () => {
+    autoStoppedRef.current = true
   }
 
   return (
@@ -69,7 +156,7 @@ export function Navbar({
           <span>{PROFILE.name}</span>
         </button>
 
-        {/* Desktop Section Tabs */}
+        {/* Desktop Section Tabs (>= 1024px) */}
         <nav
           className="hidden items-center gap-1 lg:flex"
           role="tablist"
@@ -127,7 +214,7 @@ export function Navbar({
         </div>
       </div>
 
-      {/* Tablet Static Section Bar (640px–1023px: all 6 fit cleanly without scrolling) */}
+      {/* Tablet Static Section Bar (640px–1023px) */}
       <div className="hidden border-t border-ink/15 bg-paper/90 px-4 py-1.5 dark:border-paper/15 dark:bg-zinc-950/90 sm:block lg:hidden">
         <nav
           role="tablist"
@@ -163,57 +250,66 @@ export function Navbar({
         </nav>
       </div>
 
-      {/* Mobile-Only Circular News-Ticker Section Bar (< 640px) */}
-      <div
-        className="relative overflow-hidden border-t border-ink/15 bg-paper/90 py-1.5 dark:border-paper/15 dark:bg-zinc-950/90 sm:hidden"
-        onTouchStart={pauseBriefly}
-      >
+      {/* Mobile-Only Circular Section Ring (< 640px): auto-cycles 7s, pauses on hover/touch, manually scrollable in a circle */}
+      <div className="relative border-t border-ink/15 bg-paper/90 py-1.5 dark:border-paper/15 dark:bg-zinc-950/90 sm:hidden">
         <div
-          className="overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_6%,black_94%,transparent)]"
+          ref={scrollerRef}
+          onScroll={handleRingScroll}
+          onMouseEnter={() => {
+            hoveredRef.current = true
+          }}
+          onMouseLeave={() => {
+            hoveredRef.current = false
+          }}
+          onTouchStart={pauseAutoCycle}
+          onPointerDown={pauseAutoCycle}
+          onWheel={pauseAutoCycle}
+          className="no-scrollbar flex overflow-x-auto touch-pan-x [mask-image:linear-gradient(to_right,transparent,black_5%,black_95%,transparent)]"
           aria-label="Portfolio sections"
         >
-          <div className="nav-ticker-track" data-paused={tickerPaused ? "true" : "false"}>
-            {[0, 1].map((loopIdx) => (
-              <div
-                key={loopIdx}
-                role={loopIdx === 0 ? "tablist" : undefined}
-                aria-hidden={loopIdx === 1 ? "true" : undefined}
-                className="flex shrink-0 items-center gap-2 pr-2"
-              >
-                {NAV_SECTIONS.map((item) => {
-                  const isActive = activeSection === item.id
-                  return (
-                    <button
-                      key={`${loopIdx}-${item.id}`}
-                      type="button"
-                      role={loopIdx === 0 ? "tab" : undefined}
-                      aria-selected={loopIdx === 0 ? isActive : undefined}
-                      tabIndex={loopIdx === 1 ? -1 : 0}
-                      onClick={() => handleMobileSelect(item.id)}
-                      className={`inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border px-3 py-1 text-[11px] font-extrabold uppercase tracking-wider transition-colors ${
-                        isActive
-                          ? "border-ink bg-ink text-paper dark:border-paper dark:bg-paper dark:text-ink"
-                          : "border-ink/25 bg-white text-ink hover:border-ink dark:border-paper/25 dark:bg-zinc-900 dark:text-paper"
+          {[0, 1, 2].map((loopIdx) => (
+            <div
+              key={loopIdx}
+              role={loopIdx === 1 ? "tablist" : undefined}
+              aria-hidden={loopIdx !== 1 ? "true" : undefined}
+              className="flex shrink-0 items-center gap-2 px-1"
+            >
+              {NAV_SECTIONS.map((item) => {
+                const isActive = activeSection === item.id
+                return (
+                  <button
+                    key={`${loopIdx}-${item.id}`}
+                    type="button"
+                    role={loopIdx === 1 ? "tab" : undefined}
+                    aria-selected={loopIdx === 1 ? isActive : undefined}
+                    tabIndex={loopIdx !== 1 ? -1 : 0}
+                    onClick={() => {
+                      pauseAutoCycle()
+                      onSelectSection(item.id)
+                    }}
+                    className={`inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border px-3 py-1 text-[11px] font-extrabold uppercase tracking-wider transition-colors ${
+                      isActive
+                        ? "border-ink bg-ink text-paper dark:border-paper dark:bg-paper dark:text-ink"
+                        : "border-ink/25 bg-white text-ink hover:border-ink dark:border-paper/25 dark:bg-zinc-900 dark:text-paper"
+                    }`}
+                  >
+                    <span
+                      className={`font-mono text-[9px] ${
+                        isActive ? "text-accent dark:text-ink/70" : "opacity-60"
                       }`}
                     >
-                      <span
-                        className={`font-mono text-[9px] ${
-                          isActive ? "text-accent dark:text-ink/70" : "opacity-60"
-                        }`}
-                      >
-                        {item.index}
-                      </span>
-                      <span>{item.label}</span>
-                    </button>
-                  )
-                })}
-                <span
-                  aria-hidden="true"
-                  className="mx-1 h-1.5 w-1.5 shrink-0 rounded-full bg-accent"
-                />
-              </div>
-            ))}
-          </div>
+                      {item.index}
+                    </span>
+                    <span>{item.label}</span>
+                  </button>
+                )
+              })}
+              <span
+                aria-hidden="true"
+                className="mx-1 h-1.5 w-1.5 shrink-0 rounded-full bg-accent"
+              />
+            </div>
+          ))}
         </div>
       </div>
     </header>
