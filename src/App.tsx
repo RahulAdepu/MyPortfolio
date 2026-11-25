@@ -194,7 +194,18 @@ export default function App() {
         className="fixed inset-0 z-0"
       />
 
-      {/* Fixed Top Navigation Header (Desktop tabs + Mobile circular news-ticker bar) */}
+      <div className="relative z-10">
+        <MascotPortfolioHero
+          height="100svh"
+          minHeight="540px"
+          {...HERO_CONFIG}
+          {...heroThemeProps}
+        />
+      </div>
+
+      <div ref={workspaceRef} id="workspace" className="scroll-mt-0" />
+
+      {/* Sticky Navigation Header — sits below hero and pins to top on scroll */}
       <Navbar
         activeSection={activeSection}
         onSelectSection={(sec) => selectSection(sec)}
@@ -202,17 +213,6 @@ export default function App() {
         darkMode={darkMode}
         onToggleTheme={toggleTheme}
       />
-
-      <div className="relative z-10 pt-[98px] lg:pt-[58px]">
-        <MascotPortfolioHero
-          height="calc(100svh - 58px)"
-          minHeight="520px"
-          {...HERO_CONFIG}
-          {...heroThemeProps}
-        />
-      </div>
-
-      <div ref={workspaceRef} id="workspace" className="scroll-mt-[100px] lg:scroll-mt-[60px]" />
 
       <main className="relative z-10 flex-1" role="tabpanel" aria-label={activeSection}>
         {activeSection === "overview" && (

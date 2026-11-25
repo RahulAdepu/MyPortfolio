@@ -55,7 +55,7 @@ export function Navbar({
   }
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 border-b-2 border-ink bg-paper/95 backdrop-blur-md transition-colors dark:border-paper/20 dark:bg-zinc-950/95">
+    <header className="sticky top-0 z-40 border-y-2 border-ink bg-paper/95 backdrop-blur-md transition-colors dark:border-paper/20 dark:bg-zinc-950/95">
       {/* Main Top Bar */}
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-2.5 sm:px-6 lg:px-8">
         <button
