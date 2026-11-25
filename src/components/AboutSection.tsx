@@ -17,7 +17,7 @@ export function AboutSection() {
               </span>
               <span>Profile &amp; Impact</span>
             </div>
-            <h2 className="font-display text-4xl uppercase tracking-tight text-ink dark:text-paper sm:text-6xl">
+            <h2 className="font-display text-[clamp(1.75rem,8vw,3.75rem)] uppercase leading-[0.98] tracking-tight text-ink dark:text-paper">
               Reliability by Design
             </h2>
           </div>
@@ -28,8 +28,8 @@ export function AboutSection() {
 
         <div className="grid gap-8 lg:grid-cols-12">
           {/* Editorial Bio + Identity Dossier */}
-          <div className="space-y-6 lg:col-span-7">
-            <div className="rounded-3xl border-2 border-ink bg-white p-6 shadow-brutal dark:border-paper/25 dark:bg-zinc-900 dark:shadow-brutal-dark sm:p-8">
+          <div className="min-w-0 space-y-6 lg:col-span-7">
+            <div className="rounded-3xl border-2 border-ink bg-white p-5 shadow-brutal dark:border-paper/25 dark:bg-zinc-900 dark:shadow-brutal-dark sm:p-8">
               <div className="mb-5 flex flex-wrap items-center gap-2">
                 <Badge variant="default">Production SRE</Badge>
                 <Badge variant="ink">Regulated Finance</Badge>
@@ -93,7 +93,7 @@ export function AboutSection() {
           </div>
 
           {/* 2x2 Impact Metrics Grid */}
-          <div className="flex flex-col justify-between gap-6 lg:col-span-5">
+          <div className="flex min-w-0 flex-col justify-between gap-6 lg:col-span-5">
             <div className="grid gap-4 sm:grid-cols-2">
               {PROFILE.metrics.map((metric, idx) => (
                 <div

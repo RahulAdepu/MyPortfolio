@@ -125,7 +125,7 @@ export default function App() {
   return (
     <div
       id="top"
-      className="relative min-h-screen bg-paper text-ink transition-colors dark:bg-zinc-950 dark:text-paper"
+      className="relative min-h-screen overflow-x-clip bg-paper text-ink transition-colors dark:bg-zinc-950 dark:text-paper"
     >
       <a
         href="#about"

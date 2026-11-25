@@ -146,7 +146,7 @@ export function CredentialsAndGame() {
               </span>
               <span>Credentials</span>
             </div>
-            <h2 className="font-display text-4xl uppercase tracking-tight text-ink dark:text-paper sm:text-6xl">
+            <h2 className="font-display text-[clamp(1.75rem,8vw,3.75rem)] uppercase leading-[0.98] tracking-tight text-ink dark:text-paper">
               Education &amp; Certs
             </h2>
           </div>
@@ -157,8 +157,8 @@ export function CredentialsAndGame() {
 
         <div className="grid gap-8 lg:grid-cols-12">
           {/* Education + Certs */}
-          <div className="space-y-6 lg:col-span-7">
-            <div className="rounded-3xl border-2 border-ink bg-white p-6 shadow-brutal dark:border-paper/25 dark:bg-zinc-900 dark:shadow-brutal-dark sm:p-7">
+          <div className="min-w-0 space-y-6 lg:col-span-7">
+            <div className="rounded-3xl border-2 border-ink bg-white p-5 shadow-brutal dark:border-paper/25 dark:bg-zinc-900 dark:shadow-brutal-dark sm:p-7">
               <div className="mb-5 flex items-center gap-2.5">
                 <span className="flex h-9 w-9 items-center justify-center rounded-xl border-2 border-ink bg-accent dark:border-accent">
                   <GraduationCap className="h-5 w-5 text-ink" />
@@ -232,8 +232,8 @@ export function CredentialsAndGame() {
             </div>
           </div>
 
-          <div id="simulation" className="scroll-mt-20 lg:col-span-5">
-            <div className="flex h-full flex-col justify-between rounded-3xl border-2 border-ink bg-ink p-6 text-paper shadow-brutal-accent dark:border-accent/60 dark:bg-zinc-900 sm:p-7">
+          <div id="simulation" className="min-w-0 scroll-mt-20 lg:col-span-5">
+            <div className="flex h-full flex-col justify-between rounded-3xl border-2 border-ink bg-ink p-5 text-paper shadow-brutal-accent dark:border-accent/60 dark:bg-zinc-900 sm:p-7">
               <div>
                 <div className="flex items-center justify-between gap-2">
                   <div className="inline-flex items-center gap-2 rounded-full border border-paper/30 bg-white/10 px-3 py-1 font-mono text-[11px] font-bold uppercase tracking-wider text-accent">

@@ -17,7 +17,7 @@ export function ExperienceSection() {
               </span>
               <span>Work History</span>
             </div>
-            <h2 className="font-display text-4xl uppercase tracking-tight text-ink dark:text-paper sm:text-6xl">
+            <h2 className="font-display text-[clamp(1.75rem,8vw,3.75rem)] uppercase leading-[0.98] tracking-tight text-ink dark:text-paper">
               Production Track Record
             </h2>
           </div>
@@ -30,7 +30,7 @@ export function ExperienceSection() {
           {EXPERIENCES.map((exp, index) => (
             <article
               key={exp.id}
-              className="rounded-3xl border-2 border-ink bg-white p-6 shadow-brutal transition-transform duration-200 hover:-translate-y-0.5 dark:border-paper/25 dark:bg-zinc-900 dark:shadow-brutal-dark sm:p-8 lg:p-10"
+              className="min-w-0 rounded-3xl border-2 border-ink bg-white p-5 shadow-brutal transition-transform duration-200 hover:-translate-y-0.5 dark:border-paper/25 dark:bg-zinc-900 dark:shadow-brutal-dark sm:p-8 lg:p-10"
             >
               <div className="flex flex-wrap items-start justify-between gap-4 border-b-2 border-ink/15 pb-6 dark:border-paper/15">
                 <div className="space-y-2">

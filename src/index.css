@@ -27,6 +27,11 @@
     @apply border-ink/15 dark:border-paper/15;
   }
 
+  html,
+  body {
+    overflow-x: clip;
+  }
+
   body {
     background-color: #ebebea;
     color: #111111;

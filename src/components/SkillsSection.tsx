@@ -32,7 +32,7 @@ export function SkillsSection() {
               </span>
               <span>Technical Stack</span>
             </div>
-            <h2 className="font-display text-4xl uppercase tracking-tight text-ink dark:text-paper sm:text-6xl">
+            <h2 className="font-display text-[clamp(1.75rem,8vw,3.75rem)] uppercase leading-[0.98] tracking-tight text-ink dark:text-paper">
               Tools &amp; Capabilities
             </h2>
           </div>
@@ -87,11 +87,11 @@ export function SkillsSection() {
             return (
               <div
                 key={category.id}
-                className="rounded-3xl border-2 border-ink bg-white p-6 shadow-brutal dark:border-paper/25 dark:bg-zinc-900 dark:shadow-brutal-dark sm:p-7"
+                className="min-w-0 rounded-3xl border-2 border-ink bg-white p-5 shadow-brutal dark:border-paper/25 dark:bg-zinc-900 dark:shadow-brutal-dark sm:p-7"
               >
                 <div className="mb-6 flex items-start justify-between gap-4 border-b-2 border-ink/15 pb-4 dark:border-paper/15">
-                  <div>
-                    <h3 className="font-display text-xl uppercase tracking-tight text-ink dark:text-paper">
+                  <div className="min-w-0">
+                    <h3 className="font-display text-lg uppercase tracking-tight text-ink dark:text-paper sm:text-xl">
                       {category.title}
                     </h3>
                     <p className="mt-1 text-xs font-medium text-ink/70 dark:text-paper/65">
@@ -106,8 +106,8 @@ export function SkillsSection() {
                 <div className="space-y-4">
                   {category.items.map((skill) => (
                     <div key={skill.name} className="space-y-1.5">
-                      <div className="flex items-center justify-between gap-3">
-                        <div className="flex items-center gap-2.5">
+                      <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1">
+                        <div className="flex min-w-0 items-center gap-2.5">
                           <span className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-lg border-2 border-ink bg-paper font-mono text-[10px] font-bold text-ink dark:border-paper/30 dark:bg-zinc-800 dark:text-paper">
                             {skill.code}
                           </span>
@@ -115,7 +115,7 @@ export function SkillsSection() {
                             {skill.name}
                           </span>
                         </div>
-                        <span className="font-mono text-[11px] font-bold uppercase tracking-wider text-ink/65 dark:text-paper/60">
+                        <span className="shrink-0 font-mono text-[11px] font-bold uppercase tracking-wider text-ink/65 dark:text-paper/60">
                           {skill.level} · {skill.percent}%
                         </span>
                       </div>
