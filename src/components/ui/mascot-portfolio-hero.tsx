@@ -234,9 +234,13 @@ const CSS = `
 .mph-ch:hover{transform:translateY(-.08em) rotate(-4deg);color:var(--mph-accent);}
 .mph-arrow{display:inline-block;width:.6em;height:.6em;margin:0 .06em 0 .1em;vertical-align:-.02em;}
 .mph-arrow path{stroke:currentColor;stroke-width:15;fill:none;stroke-linecap:square;}
-.mph-badge{position:absolute;top:-.02em;left:calc(100% + .55em);font-family:var(--mph-sans);font-size:.2em;font-weight:800;letter-spacing:0;line-height:1;text-transform:none;border:.13cqw solid var(--mph-ink);border-radius:50%;padding:.75em 1.15em;transform:rotate(-9deg);transition:background .25s,transform .4s cubic-bezier(.3,1.6,.5,1);cursor:default;}
-.mph-badge sup{font-size:.7em;margin-left:.1em;}
-.mph-badge:hover{background:var(--mph-accent);transform:rotate(6deg) scale(1.08);}
+.mph-badge{position:absolute;top:-.04em;left:calc(100% + .25em);width:1.45em;aspect-ratio:220/92;transform:rotate(-9deg);transition:transform .4s cubic-bezier(.3,1.6,.5,1);cursor:pointer;text-decoration:none;animation:mph-float-l 3.2s -1.4s ease-in-out infinite;}
+.mph-badge svg{display:block;width:100%;height:100%;overflow:visible;}
+.mph-badge-bg{fill:var(--mph-surface);stroke:var(--mph-ink);stroke-width:3.2;transition:fill .25s;}
+.mph-badge-txt{fill:var(--mph-ink);font-family:var(--mph-sans);font-size:30px;font-weight:800;letter-spacing:-0.4px;transition:fill .25s;}
+.mph-badge:hover{animation-play-state:paused;transform:rotate(6deg) scale(1.08);}
+.mph-badge:hover .mph-badge-bg{fill:var(--mph-accent);}
+.mph-badge:hover .mph-badge-txt{fill:#111111;}
 .mph-swash{position:relative;display:inline-block;}
 .mph-swash svg{position:absolute;left:-.95em;top:.3em;width:2.55em;height:.72em;overflow:visible;pointer-events:none;}
 .mph-swash path{fill:none;stroke:var(--mph-ink);stroke-width:.2cqw;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:0;animation:mph-draw 1.6s .5s cubic-bezier(.6,0,.2,1) both;}
@@ -296,6 +300,7 @@ const CSS = `
 @keyframes mph-spin{to{transform:rotate(360deg);}}
 @keyframes mph-wiggle{0%{transform:rotate(0);}25%{transform:rotate(-14deg);}55%{transform:rotate(9deg);}80%{transform:rotate(-4deg);}100%{transform:rotate(0);}}
 @keyframes mph-float{0%,100%{transform:translateY(0) rotate(9deg);}50%{transform:translateY(-6px) rotate(9deg);}}
+@keyframes mph-float-l{0%,100%{transform:translateY(0) rotate(-9deg);}50%{transform:translateY(-6px) rotate(-9deg);}}
 
 @container mph (orientation: portrait){
 .mph-stage{top:0;transform:translateX(-50%);width:min(100cqw,56.25cqh);height:100cqh;aspect-ratio:auto;}
@@ -303,7 +308,7 @@ const CSS = `
 .mph-tagline,.mph-brace{display:none;}
 .mph-reel{grid-column:3;}
 .mph-h1{left:7%;top:17cqw;font-size:11.4cqw;}
-.mph-badge{left:calc(100% + .35em);top:.1em;font-size:.22em;}
+.mph-badge{left:calc(100% + .18em);top:.02em;width:1.48em;}
 .mph-pill{left:7%;top:70cqw;font-size:3.5cqw;}
 .mph-flower{left:auto;right:6%;top:66cqw;width:13%;}
 .mph-curl{left:auto;right:4%;top:44cqw;width:11%;}
@@ -589,10 +594,39 @@ export default function MascotPortfolioHero({
               <path d="M14 14 L84 84 M84 30 V84 H30" />
             </svg>
             {chars(initials)}
-            <span className="mph-badge">
-              {badge}
-              <sup>@</sup>
-            </span>
+            {href ? (
+              <a className="mph-badge" href={href} aria-label={badge}>
+                <svg
+                  viewBox="0 0 220 92"
+                  shapeRendering="geometricPrecision"
+                  textRendering="geometricPrecision"
+                >
+                  <ellipse cx="110" cy="46" rx="105" ry="41" className="mph-badge-bg" />
+                  <text x="110" y="56" textAnchor="middle" className="mph-badge-txt">
+                    {badge}
+                    <tspan dy="-6" fontSize="22">
+                      @
+                    </tspan>
+                  </text>
+                </svg>
+              </a>
+            ) : (
+              <span className="mph-badge">
+                <svg
+                  viewBox="0 0 220 92"
+                  shapeRendering="geometricPrecision"
+                  textRendering="geometricPrecision"
+                >
+                  <ellipse cx="110" cy="46" rx="105" ry="41" className="mph-badge-bg" />
+                  <text x="110" y="56" textAnchor="middle" className="mph-badge-txt">
+                    {badge}
+                    <tspan dy="-6" fontSize="22">
+                      @
+                    </tspan>
+                  </text>
+                </svg>
+              </span>
+            )}
           </span>
           <span className="mph-line" aria-hidden="true">
             {chars(line2)}
