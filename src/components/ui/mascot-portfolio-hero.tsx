@@ -218,7 +218,7 @@ const CSS = `
 .mph-root{position:relative;width:100%;overflow:hidden;isolation:isolate;background:var(--mph-paper);color:var(--mph-ink);container:mph / size;font-family:var(--mph-sans);-webkit-font-smoothing:antialiased;}
 .mph-room{position:absolute;inset:0;width:100%;height:100%;display:block;color:var(--mph-ink);pointer-events:none;}
 .mph-room line,.mph-room path{vector-effect:non-scaling-stroke;}
-.mph-stage{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:min(100cqw,177.78cqh);aspect-ratio:16/9;container:mphs / inline-size;}
+.mph-stage{position:absolute;left:50%;bottom:0;transform:translateX(-50%);width:min(100cqw,177.78cqh);aspect-ratio:16/9;container:mphs / inline-size;}
 
 .mph-top{position:absolute;left:4.6%;right:4.6%;top:4.4%;display:grid;grid-template-columns:auto auto 1fr auto auto;align-items:center;column-gap:2.4cqw;font-size:1.05cqw;font-weight:800;line-height:1.1;text-transform:uppercase;letter-spacing:.02em;}
 .mph-index{display:inline-flex;align-items:center;gap:.9em;border:.12cqw solid var(--mph-ink);border-radius:999px;padding:.12em .9em .12em .12em;font-size:.72em;}
@@ -306,7 +306,7 @@ const CSS = `
 .mph-services{left:7%;right:7%;bottom:auto;top:84cqw;flex-wrap:wrap;gap:1.6cqw 5cqw;font-size:3cqw;}
 .mph-rule-l{left:3%;top:22cqw;height:12cqw;}
 .mph-rule-r{left:95%;top:auto;bottom:40cqw;height:12cqw;}
-.mph-char{left:12%;width:76%;bottom:-.6%;}
+.mph-char{left:12%;width:76%;bottom:-1.4%;}
 .mph-bubble{font-size:3cqw;left:-8%;top:2%;max-width:52%;}
 .mph-poke{right:-6%;top:5%;font-size:2.7cqw;border-width:.28cqw;}
 }
