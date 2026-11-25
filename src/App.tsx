@@ -197,7 +197,8 @@ export default function App() {
       <div className="relative z-10">
         <MascotPortfolioHero
           height="100svh"
-          minHeight="540px"
+          minHeight="480px"
+          className="hero-fit"
           {...HERO_CONFIG}
           {...heroThemeProps}
         />

@@ -45,6 +45,16 @@
   }
 }
 
+.hero-fit {
+  height: min(100svh, 56.25vw) !important;
+}
+
+@media (orientation: portrait) {
+  .hero-fit {
+    height: min(100svh, 178vw) !important;
+  }
+}
+
 @keyframes nav-ticker {
   0% {
     transform: translate3d(0, 0, 0);
