@@ -1,17 +1,15 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <rect width="64" height="64" rx="16" fill="#111111" />
-  <rect x="4" y="4" width="56" height="56" rx="13" fill="none" stroke="#5fb57a" stroke-width="3" />
+  <rect x="3" y="3" width="58" height="58" rx="29" fill="#5fb57a" stroke="#111111" stroke-width="5" />
   <text
     x="32"
     y="42"
     text-anchor="middle"
-    font-family="Arial Black, Inter, sans-serif"
-    font-size="28"
+    font-family="JetBrains Mono, Inter, system-ui, sans-serif"
+    font-size="27"
     font-weight="900"
     letter-spacing="-1"
-    fill="#ebebea"
+    fill="#111111"
   >
     RA
   </text>
-  <circle cx="52" cy="14" r="4.5" fill="#5fb57a" />
 </svg>

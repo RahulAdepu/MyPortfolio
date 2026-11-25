@@ -13,8 +13,8 @@ import { NotFoundPage } from "@/components/NotFoundPage"
 import { HERO_CONFIG, PROFILE } from "@/data/portfolio"
 
 const RAW_BASE = import.meta.env.BASE_URL
-const HOME_TITLE = "Rahul Adepu | Site Reliability Engineer · DevOps · Cloud · Toronto"
-const NOT_FOUND_TITLE = "404 — Page Not Found | Rahul Adepu"
+const HOME_TITLE = "Rahul Adepu"
+const NOT_FOUND_TITLE = "404 — Rahul Adepu"
 
 const VALID_SECTIONS = new Set<SectionId>(NAV_SECTIONS.map((s) => s.id))
 
