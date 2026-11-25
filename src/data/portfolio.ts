@@ -146,7 +146,7 @@ export const PROFILE = {
   email: "rahuladepu09@gmail.com",
   phone: "647-375-4990",
   phoneHref: "tel:+16473754990",
-  linkedin: "https://linkedin.com/in/Rahul-Adepu-09",
+  linkedin: "https://www.linkedin.com/in/-rahuladepu/",
   github: "https://github.com/RahulAdepu",
   summary: `Results-driven SRE & DevOps engineer with ${TOTAL_EXPERIENCE_YEARS} years delivering production reliability in regulated financial environments. Proficient in full-stack CI/CD, cloud automation across AWS & Azure, and ELK/OpenSearch observability. Experienced in SLO/SLI design, incident command (P1/P2), cost optimization, and SQL-based production troubleshooting.`,
   aboutParagraphs: [
