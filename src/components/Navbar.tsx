@@ -24,7 +24,11 @@ export const NAV_SECTIONS: ReadonlyArray<{
 ]
 
 const AUTO_CYCLE_MS = 7000
-const CYCLE_PX_PER_SEC = 52
+
+// Smooth sine ease-in-out so the 7s 360° showcase accelerates gently and settles cleanly on 01 Overview
+function easeInOutSine(t: number): number {
+  return -(Math.cos(Math.PI * t) - 1) / 2
+}
 
 interface NavbarProps {
   activeSection: SectionId
@@ -91,15 +95,20 @@ export function Navbar({
 
       if (inView && !hoveredRef.current && !document.hidden) {
         elapsedMs += dtMs
-        if (elapsedMs >= AUTO_CYCLE_MS) {
-          autoStoppedRef.current = true
-          return
-        }
-
         const third = el.scrollWidth / 3
         if (third > 0) {
-          let next = posRef.current + (CYCLE_PX_PER_SEC * dtMs) / 1000
-          if (next >= third * 2) next -= third
+          if (elapsedMs >= AUTO_CYCLE_MS) {
+            // Land cleanly back at normal position (01 Overview first) in the middle copy
+            posRef.current = third
+            programmaticRef.current = true
+            el.scrollLeft = third
+            programmaticRef.current = false
+            autoStoppedRef.current = true
+            return
+          }
+
+          const progress = easeInOutSine(elapsedMs / AUTO_CYCLE_MS)
+          const next = third + progress * third
           posRef.current = next
           programmaticRef.current = true
           el.scrollLeft = next
