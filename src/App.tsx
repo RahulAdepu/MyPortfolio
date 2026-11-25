@@ -11,10 +11,26 @@ import { ContactSection } from "@/components/ContactSection"
 import { NotFoundPage } from "@/components/NotFoundPage"
 import { HERO_CONFIG } from "@/data/portfolio"
 
-const BASE_PATH = import.meta.env.BASE_URL.replace(/\/+$/, "") || ""
-
+const RAW_BASE = import.meta.env.BASE_URL
 const HOME_TITLE = "Rahul Adepu | Site Reliability Engineer · DevOps · Cloud · Toronto"
 const NOT_FOUND_TITLE = "404 — Page Not Found | Rahul Adepu"
+
+function getHomeBasePath(): string {
+  // Explicit absolute base from Vite (e.g. "/MyWebsite/" in GitHub Actions or "/" in dev)
+  if (RAW_BASE.startsWith("/")) {
+    return RAW_BASE.replace(/\/+$/, "")
+  }
+  // Relative "./" build: detect GitHub Pages project subpath (/RepoName) vs root (/)
+  if (typeof window !== "undefined" && window.location.hostname.endsWith(".github.io")) {
+    const segments = window.location.pathname.split("/").filter(Boolean)
+    if (segments.length >= 1 && segments[0] !== "index.html" && segments[0] !== "404" && segments[0] !== "404.html") {
+      return `/${segments[0]}`
+    }
+  }
+  return ""
+}
+
+const BASE_PATH = getHomeBasePath()
 
 function getInitialDarkMode(): boolean {
   if (typeof window === "undefined") return false
@@ -25,7 +41,8 @@ function getInitialDarkMode(): boolean {
   }
 }
 
-function isHomeRoute(pathname: string): boolean {
+function isHomeRoute(pathname: string, forcedNotFound: boolean): boolean {
+  if (forcedNotFound) return false
   const clean = pathname.replace(/\/+$/, "") || "/"
   const baseHome = BASE_PATH || "/"
   return clean === baseHome || clean === `${BASE_PATH}/index.html`
@@ -33,6 +50,9 @@ function isHomeRoute(pathname: string): boolean {
 
 export default function App() {
   const [darkMode, setDarkMode] = useState<boolean>(getInitialDarkMode)
+  const [forcedNotFound, setForcedNotFound] = useState<boolean>(() =>
+    typeof window !== "undefined" ? Boolean(window.__IS_404_PAGE__) : false,
+  )
   const [pathname, setPathname] = useState<string>(() =>
     typeof window === "undefined" ? "/" : window.location.pathname,
   )
@@ -47,12 +67,15 @@ export default function App() {
   }, [darkMode])
 
   useEffect(() => {
-    const onPopState = () => setPathname(window.location.pathname)
+    const onPopState = () => {
+      setForcedNotFound(false)
+      setPathname(window.location.pathname)
+    }
     window.addEventListener("popstate", onPopState)
     return () => window.removeEventListener("popstate", onPopState)
   }, [])
 
-  const isHome = isHomeRoute(pathname)
+  const isHome = isHomeRoute(pathname, forcedNotFound)
 
   useEffect(() => {
     document.title = isHome ? HOME_TITLE : NOT_FOUND_TITLE
@@ -62,6 +85,7 @@ export default function App() {
 
   const navigateTo = (relativePath: string, sectionHash?: string) => {
     const targetPath = `${BASE_PATH}${relativePath}` || "/"
+    setForcedNotFound(false)
     window.history.pushState({}, "", sectionHash ? `${targetPath}${sectionHash}` : targetPath)
     setPathname(targetPath)
     if (sectionHash) {

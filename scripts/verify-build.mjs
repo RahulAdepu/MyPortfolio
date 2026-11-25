@@ -21,7 +21,8 @@ for (const file of requiredDistFiles) {
 
 const indexHtml = fs.readFileSync(path.join(dist, "index.html"), "utf8")
 const notFoundHtml = fs.readFileSync(path.join(dist, "404.html"), "utf8")
-assert.equal(indexHtml, notFoundHtml, "dist/404.html must match dist/index.html")
+assert.ok(notFoundHtml.includes("__IS_404_PAGE__"), "dist/404.html must include __IS_404_PAGE__ marker")
+assert.match(indexHtml, /src="(\.\/|\/[^"]*)assets\/index-/, "Missing built JS script tag in dist/index.html")
 assert.match(indexHtml, /rel="icon"[^>]*favicon\.svg/, "Missing favicon link in dist/index.html")
 assert.match(indexHtml, /application\/ld\+json/, "Missing JSON-LD structured data")
 
