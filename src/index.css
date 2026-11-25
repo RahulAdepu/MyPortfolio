@@ -57,14 +57,19 @@
 .nav-ticker-track {
   display: flex;
   width: max-content;
-  animation: nav-ticker 18s linear infinite;
-  will-change: transform;
 }
 
-.nav-ticker-track:hover,
-.nav-ticker-track:focus-within,
-.nav-ticker-track[data-paused="true"] {
-  animation-play-state: paused;
+@media (max-width: 639px) {
+  .nav-ticker-track {
+    animation: nav-ticker 18s linear infinite;
+    will-change: transform;
+  }
+
+  .nav-ticker-track:hover,
+  .nav-ticker-track:focus-within,
+  .nav-ticker-track[data-paused="true"] {
+    animation-play-state: paused;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

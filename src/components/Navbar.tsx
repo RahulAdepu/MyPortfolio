@@ -127,9 +127,45 @@ export function Navbar({
         </div>
       </div>
 
-      {/* Mobile / Tablet Circular News-Ticker Section Bar */}
+      {/* Tablet Static Section Bar (640px–1023px: all 6 fit cleanly without scrolling) */}
+      <div className="hidden border-t border-ink/15 bg-paper/90 px-4 py-1.5 dark:border-paper/15 dark:bg-zinc-950/90 sm:block lg:hidden">
+        <nav
+          role="tablist"
+          aria-label="Portfolio sections"
+          className="mx-auto flex max-w-7xl flex-wrap items-center justify-center gap-1.5"
+        >
+          {NAV_SECTIONS.map((item) => {
+            const isActive = activeSection === item.id
+            return (
+              <button
+                key={`tablet-${item.id}`}
+                type="button"
+                role="tab"
+                aria-selected={isActive}
+                onClick={() => onSelectSection(item.id)}
+                className={`inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border px-3 py-1 text-[11px] font-extrabold uppercase tracking-wider transition-colors ${
+                  isActive
+                    ? "border-ink bg-ink text-paper dark:border-paper dark:bg-paper dark:text-ink"
+                    : "border-ink/25 bg-white text-ink hover:border-ink dark:border-paper/25 dark:bg-zinc-900 dark:text-paper"
+                }`}
+              >
+                <span
+                  className={`font-mono text-[9px] ${
+                    isActive ? "text-accent dark:text-ink/70" : "opacity-60"
+                  }`}
+                >
+                  {item.index}
+                </span>
+                <span>{item.label}</span>
+              </button>
+            )
+          })}
+        </nav>
+      </div>
+
+      {/* Mobile-Only Circular News-Ticker Section Bar (< 640px) */}
       <div
-        className="relative overflow-hidden border-t border-ink/15 bg-paper/90 py-1.5 dark:border-paper/15 dark:bg-zinc-950/90 lg:hidden"
+        className="relative overflow-hidden border-t border-ink/15 bg-paper/90 py-1.5 dark:border-paper/15 dark:bg-zinc-950/90 sm:hidden"
         onTouchStart={pauseBriefly}
       >
         <div
